@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Confirmação – A Casa Mágica da Luna</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg1: #ffd3ea; --bg2: #e4d6ff; --bg3: #c9ecff;
+    --card: #fff7fb; --card-edge: #29b6e8;
+    --ink: #3b2a7a; --muted: #6d5b96;
+    --pink: #f0308c; --pink-soft: #ffd9ec;
+    --teal: #10a5a5; --blue: #29b6e8; --purple: #7a4bd8;
+    --line: #ffa9d3; --field: #ffffff; --danger: #d6245a;
+    --shadow: 0 10px 30px rgba(122, 75, 216, .18);
+    color-scheme: light;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg1: #3a1259; --bg2: #24184f; --bg3: #14315a;
+      --card: #2a1c4d; --card-edge: #3cc3f0;
+      --ink: #f4eaff; --muted: #c5b4ea;
+      --pink: #ff6db3; --pink-soft: #4b2260;
+      --teal: #52dcd4; --blue: #3cc3f0; --purple: #b79bff;
+      --line: #7a3f7f; --field: #1d1240; --danger: #ff7a9f;
+      --shadow: 0 10px 30px rgba(0, 0, 0, .4);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg1: #3a1259; --bg2: #24184f; --bg3: #14315a;
+    --card: #2a1c4d; --card-edge: #3cc3f0;
+    --ink: #f4eaff; --muted: #c5b4ea;
+    --pink: #ff6db3; --pink-soft: #4b2260;
+    --teal: #52dcd4; --blue: #3cc3f0; --purple: #b79bff;
+    --line: #7a3f7f; --field: #1d1240; --danger: #ff7a9f;
+    --shadow: 0 10px 30px rgba(0, 0, 0, .4);
+    color-scheme: dark;
+  }
+
+  html { height: 100%; scroll-padding-top: env(safe-area-inset-top, 0px); }
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100%;
+    font-family: 'Fredoka', 'Trebuchet MS', system-ui, sans-serif;
+    color: var(--ink);
+    background-color: var(--bg2);
+    background-image: linear-gradient(160deg, var(--bg3) 0%, var(--bg2) 45%, var(--bg1) 100%);
+    background-attachment: fixed;
+    overflow-x: hidden;
+  }
+
+  /* brilhinhos de fundo */
+  .sparkles { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .sparkles span {
+    position: absolute; color: #fff; opacity: .0;
+    animation: twinkle 3.6s ease-in-out infinite;
+    text-shadow: 0 0 8px rgba(255,255,255,.9);
+  }
+  @keyframes twinkle { 0%,100% { opacity: .05; transform: scale(.7) } 50% { opacity: .95; transform: scale(1.15) } }
+  @media (prefers-reduced-motion: reduce) {
+    .sparkles span { animation: none; opacity: .5; }
+    .float { animation: none !important; }
+  }
+
+  .wrap { position: relative; z-index: 1; max-width: 560px; margin: 0 auto; padding: 22px 16px 40px; }
+
+  /* cabeçalho */
+  header { text-align: center; padding: 8px 0 4px; position: relative; }
+  .float { position: absolute; font-size: 44px; animation: bob 4s ease-in-out infinite; filter: drop-shadow(0 4px 6px rgba(0,0,0,.15)); }
+  .f1 { left: 2px; top: 6px; } .f2 { right: 2px; top: 2px; animation-delay: -1.2s; }
+  .f3 { left: 8px; top: 118px; font-size: 36px; animation-delay: -2.4s; }
+  .f4 { right: 8px; top: 118px; font-size: 36px; animation-delay: -.6s; }
+  @keyframes bob { 0%,100% { transform: translateY(0) rotate(-4deg) } 50% { transform: translateY(-8px) rotate(4deg) } }
+
+  .kicker {
+    font-family: 'Baloo 2', 'Fredoka', sans-serif; font-weight: 800;
+    font-size: clamp(22px, 6.4vw, 32px); color: var(--purple); letter-spacing: .5px;
+    margin: 14px 0 0; text-transform: uppercase;
+    text-shadow: 2px 2px 0 #fff, -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff, 0 3px 0 rgba(122,75,216,.25);
+  }
+  :root[data-theme="dark"] .kicker { text-shadow: 0 2px 0 rgba(0,0,0,.35); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .kicker { text-shadow: 0 2px 0 rgba(0,0,0,.35); } }
+  .name {
+    font-family: 'Baloo 2', 'Fredoka', sans-serif; font-weight: 800;
+    font-size: clamp(72px, 24vw, 118px); line-height: .95; color: var(--pink); margin: 0;
+    text-shadow: 3px 3px 0 #fff, -3px -3px 0 #fff, 3px -3px 0 #fff, -3px 3px 0 #fff, 0 6px 0 rgba(240,48,140,.3);
+    letter-spacing: 2px;
+  }
+  :root[data-theme="dark"] .name { text-shadow: 0 5px 0 rgba(0,0,0,.35); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .name { text-shadow: 0 5px 0 rgba(0,0,0,.35); } }
+  .age { font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: clamp(26px, 7vw, 36px); color: var(--pink); margin: 2px 0 0; }
+  .lets { font-weight: 600; font-size: clamp(20px, 5.4vw, 26px); color: var(--teal); margin: 6px 0 0; }
+
+  /* cartões */
+  .card {
+    background: var(--card); border: 3px solid var(--card-edge); border-radius: 26px;
+    padding: 20px 18px; margin-top: 18px; box-shadow: var(--shadow); position: relative;
+  }
+  .card h2 {
+    font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 22px; margin: 0 0 10px; color: var(--purple);
+  }
+
+  .info { display: grid; grid-template-columns: 1fr 1fr; gap: 0; text-align: center; border-bottom: 3px dotted var(--line); padding-bottom: 14px; }
+  .info > div:first-child { border-right: 3px dotted var(--line); }
+  .info small { display: block; font-weight: 600; font-size: 17px; color: var(--purple); text-transform: uppercase; letter-spacing: 1px; }
+  .info b { display: block; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 54px; line-height: 1; color: var(--teal); }
+  .info em { font-style: normal; font-weight: 600; color: var(--purple); font-size: 17px; text-transform: uppercase; }
+  .place { display: flex; gap: 10px; align-items: center; padding-top: 14px; }
+  .place .pin { font-size: 30px; }
+  .place strong { display: block; font-size: 18px; color: var(--purple); }
+  .place span { font-size: 14px; color: var(--purple); font-weight: 500; text-transform: uppercase; }
+  .price {
+    margin-top: 14px; border: 2px dashed var(--pink); border-radius: 16px; padding: 10px 12px;
+    text-align: center; color: var(--purple); font-weight: 500;
+  }
+  .price b { display: block; font-family: 'Baloo 2', sans-serif; font-size: 34px; color: var(--pink); line-height: 1.1; }
+  .price small { font-size: 14px; text-transform: uppercase; font-weight: 600; }
+
+  /* contagem regressiva */
+  .count-title { text-align: center; font-weight: 600; color: var(--purple); font-size: 17px; margin: 0 0 12px; }
+  .count-title strong { color: var(--pink); }
+  .clock { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .clock div {
+    background: linear-gradient(180deg, var(--pink) 0%, #d51a76 100%); color: #fff; border-radius: 16px;
+    padding: 10px 2px 8px; text-align: center; box-shadow: 0 4px 0 rgba(0,0,0,.12);
+  }
+  .clock b { display: block; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: clamp(28px, 9vw, 40px); line-height: 1; font-variant-numeric: tabular-nums; }
+  .clock span { font-size: 12px; text-transform: uppercase; letter-spacing: .8px; font-weight: 500; opacity: .95; }
+  .closed { text-align: center; font-weight: 600; color: var(--danger); font-size: 18px; }
+
+  /* formulário */
+  label.lbl { display: block; font-weight: 600; margin: 14px 0 6px; color: var(--purple); }
+  .hint { font-size: 14px; color: var(--muted); margin: 0 0 8px; }
+  input[type="text"], textarea {
+    width: 100%; font: inherit; font-size: 18px; color: var(--ink); background: var(--field);
+    border: 2.5px solid var(--line); border-radius: 16px; padding: 13px 14px; outline: none;
+  }
+  textarea { font-size: 15px; resize: vertical; min-height: 110px; }
+  input[type="text"]:focus, textarea:focus { border-color: var(--pink); box-shadow: 0 0 0 4px rgba(240,48,140,.18); }
+  .stepper { display: flex; align-items: center; justify-content: center; gap: 18px; margin: 4px 0; }
+  .stepper button {
+    width: 54px; height: 54px; border-radius: 50%; border: 0; cursor: pointer;
+    font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 30px; line-height: 1;
+    background: var(--blue); color: #fff; box-shadow: 0 4px 0 rgba(0,0,0,.15);
+  }
+  .stepper button:active { transform: translateY(2px); box-shadow: 0 2px 0 rgba(0,0,0,.15); }
+  .stepper button:disabled { opacity: .4; cursor: not-allowed; }
+  .stepper output { min-width: 64px; text-align: center; font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 46px; color: var(--teal); }
+  .total {
+    text-align: center; background: var(--pink-soft); border-radius: 14px; padding: 9px; margin-top: 10px;
+    font-weight: 600; color: var(--purple);
+  }
+  .total b { color: var(--pink); font-size: 20px; }
+  .btn {
+    display: block; width: 100%; margin-top: 18px; border: 0; cursor: pointer; text-align: center; text-decoration: none;
+    font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 22px; color: #fff;
+    background: linear-gradient(180deg, #ff4fa5 0%, var(--pink) 100%); border-radius: 999px; padding: 14px 18px;
+    box-shadow: 0 5px 0 #b3145f, 0 10px 20px rgba(240,48,140,.3);
+  }
+  .btn:active { transform: translateY(3px); box-shadow: 0 2px 0 #b3145f; }
+  .btn.wa { background: linear-gradient(180deg, #34d27b 0%, #16a85a 100%); box-shadow: 0 5px 0 #0d7a40, 0 10px 20px rgba(22,168,90,.3); }
+  .btn.ghost {
+    background: transparent; color: var(--purple); box-shadow: none; border: 2.5px solid var(--purple); font-size: 17px; padding: 10px 16px;
+  }
+  .btn.small { display: inline-block; width: auto; margin: 0; font-size: 15px; padding: 8px 14px; box-shadow: none; }
+  .err { color: var(--danger); font-weight: 600; margin: 8px 0 0; min-height: 1.2em; font-size: 15px; }
+
+  /* agradecimento */
+  .thanks { text-align: center; }
+  .thanks .big { font-size: 64px; margin: 0; }
+  .thanks h2 { font-size: 28px; color: var(--pink); margin: 4px 0 8px; }
+  .thanks p { font-size: 19px; line-height: 1.4; margin: 6px 0; color: var(--ink); }
+  .step-note {
+    background: var(--pink-soft); border-radius: 14px; padding: 10px 12px; font-size: 15px; color: var(--purple); margin-top: 14px; text-align: left;
+  }
+  .sign { font-family: 'Baloo 2', sans-serif; font-weight: 700; font-size: 26px; color: var(--teal); margin-top: 10px; }
+
+  .hidden { display: none !important; }
+
+  footer { text-align: center; margin-top: 26px; }
+  footer button {
+    background: none; border: 0; cursor: pointer; font: inherit; font-size: 14px; color: var(--muted); text-decoration: underline; padding: 8px;
+  }
+
+  /* painel da anfitriã */
+  .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 6px 0 12px; }
+  .stats div { background: var(--pink-soft); border-radius: 16px; text-align: center; padding: 10px 6px; }
+  .stats b { display: block; font-family: 'Baloo 2', sans-serif; font-size: 40px; line-height: 1; color: var(--pink); }
+  .stats span { font-size: 13px; font-weight: 600; color: var(--purple); text-transform: uppercase; }
+  .list { list-style: none; margin: 0; padding: 0; }
+  .list li {
+    display: flex; align-items: center; gap: 10px; padding: 10px 4px; border-bottom: 2px dotted var(--line);
+  }
+  .list .who { flex: 1; min-width: 0; }
+  .list .who strong { display: block; overflow-wrap: anywhere; }
+  .list .who small { color: var(--muted); }
+  .list .n { font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 22px; color: var(--teal); }
+  .list .del { background: none; border: 0; cursor: pointer; font-size: 20px; padding: 6px; }
+  .empty { text-align: center; color: var(--muted); padding: 12px 0; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .manual { display: grid; grid-template-columns: 1fr 84px auto; gap: 8px; align-items: center; }
+  .manual input[type="text"] { font-size: 16px; padding: 10px 12px; }
+  .status { font-size: 14px; color: var(--teal); font-weight: 600; min-height: 1.3em; margin-top: 6px; }
+  .note { font-size: 13px; color: var(--muted); margin-top: 12px; line-height: 1.4; }
+</style>
+</head>
+<body>
+
+<div class="sparkles" aria-hidden="true" id="sparkles"></div>
+
+<div class="wrap">
+
+  <header>
+    <span class="float f1" aria-hidden="true">🐱</span>
+    <span class="float f2" aria-hidden="true">🧜‍♀️</span>
+    <span class="float f3" aria-hidden="true">🧁</span>
+    <span class="float f4" aria-hidden="true">🌈</span>
+    <p class="kicker">A Casa Mágica da</p>
+    <h1 class="name">LUNA</h1>
+    <p class="age">8 ANOS</p>
+    <p class="lets">🐾 Vamos comemorar juntos! 🐾</p>
+  </header>
+
+  <section class="card" aria-label="Informações da festa">
+    <div class="info">
+      <div><small>Sábado</small><b>26</b><em>Setembro</em></div>
+      <div><small>Às</small><b style="margin-top:8px">19h</b></div>
+    </div>
+    <div class="place">
+      <span class="pin" aria-hidden="true">📍</span>
+      <div>
+        <strong>Av. Floriano Peixoto, 2321</strong>
+        <span>Nossa Sra Rodízio – Quarteto Massa</span>
+      </div>
+    </div>
+    <div class="price">
+      <small>Valor do rodízio</small>
+      <b>R$ 79,90</b>
+      <small>Incluso refrigerante e água</small>
+    </div>
+  </section>
+
+  <section class="card" aria-label="Contagem regressiva">
+    <div id="countOpen">
+      <p class="count-title">⏳ Confirme até <strong>quarta-feira, 23/09, às 23h</strong></p>
+      <div class="clock" role="timer" aria-live="off">
+        <div><b id="cd">--</b><span>dias</span></div>
+        <div><b id="ch">--</b><span>horas</span></div>
+        <div><b id="cm">--</b><span>min</span></div>
+        <div><b id="cs">--</b><span>seg</span></div>
+      </div>
+    </div>
+    <div id="countClosed" class="closed hidden">💤 As confirmações foram encerradas.<br><span style="font-weight:400;font-size:15px;color:var(--muted)">Se ainda quiser ir, fale direto com a anfitriã.</span></div>
+  </section>
+
+  <!-- FORMULÁRIO -->
+  <section class="card" id="formCard" aria-label="Confirmar presença">
+    <h2>💖 Confirme sua presença</h2>
+
+    <label class="lbl" for="guestName">Seu nome</label>
+    <input type="text" id="guestName" autocomplete="name" maxlength="60" placeholder="Nome e sobrenome">
+
+    <label class="lbl" for="stepVal">Quantas pessoas vão com você?</label>
+    <p class="hint">Familiares / acompanhantes (sem contar você).</p>
+    <div class="stepper">
+      <button type="button" id="minus" aria-label="Diminuir">−</button>
+      <output id="stepVal" aria-live="polite">0</output>
+      <button type="button" id="plus" aria-label="Aumentar">+</button>
+    </div>
+    <div class="total">Total de pessoas: <b id="totalPeople">1</b></div>
+
+    <p class="err" id="formErr" role="alert"></p>
+    <button type="button" class="btn" id="submitBtn">Confirmar presença 🎀</button>
+  </section>
+
+  <!-- AGRADECIMENTO -->
+  <section class="card thanks hidden" id="thanksCard" aria-live="polite">
+    <p class="big" aria-hidden="true">🎉</p>
+    <h2 id="thanksTitle">Obrigada pela confirmação!</h2>
+    <p id="thanksMsg">Aguardo ansiosamente você.</p>
+    <p class="sign">Com carinho, Luna 💖</p>
+
+    <div class="step-note">📲 <b>Falta só um passo:</b> toque no botão abaixo e envie a mensagem pelo WhatsApp. É assim que sua confirmação chega até a anfitriã.</div>
+    <a class="btn wa" id="waBtn" href="#" target="_blank" rel="noopener">Enviar confirmação no WhatsApp</a>
+    <button type="button" class="btn ghost" id="backBtn" style="margin-top:12px">Voltar e alterar</button>
+  </section>
+
+  <footer>
+    <button type="button" id="hostToggle">🔒 Área da anfitriã</button>
+  </footer>
+
+  <!-- PAINEL DA ANFITRIÃ -->
+  <section class="card hidden" id="hostCard" aria-label="Área da anfitriã">
+    <h2>📋 Lista de confirmados</h2>
+    <div class="stats">
+      <div><b id="statPeople">0</b><span>pessoas confirmadas</span></div>
+      <div><b id="statGroups">0</b><span>confirmações</span></div>
+    </div>
+    <ul class="list" id="hostList"></ul>
+    <div class="empty" id="hostEmpty">Nenhuma confirmação adicionada ainda.</div>
+
+    <label class="lbl" for="pasteBox">Colar mensagens recebidas no WhatsApp</label>
+    <p class="hint">Copie as mensagens de confirmação e cole aqui. O painel lê o nome e o total automaticamente. Se o mesmo nome aparecer de novo, ele atualiza a confirmação.</p>
+    <textarea id="pasteBox" placeholder="Cole aqui uma ou várias mensagens..."></textarea>
+    <div class="row"><button type="button" class="btn small" id="pasteBtn">Adicionar à lista</button></div>
+
+    <label class="lbl">Adicionar manualmente</label>
+    <div class="manual">
+      <input type="text" id="mName" placeholder="Nome" maxlength="60">
+      <input type="text" id="mComp" placeholder="+ pessoas" inputmode="numeric" maxlength="2">
+      <button type="button" class="btn small" id="mBtn">Incluir</button>
+    </div>
+
+    <div class="status" id="hostStatus"></div>
+    <div class="row">
+      <button type="button" class="btn small ghost" id="copyBtn">Copiar lista</button>
+      <button type="button" class="btn small ghost" id="clearBtn">Limpar tudo</button>
+    </div>
+    <p class="note">🔐 Esta lista fica salva somente neste aparelho e navegador. Quem abrir o link em outro celular vê a lista vazia.</p>
+  </section>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  // ======= CONFIGURAÇÃO =======
+  // Número da anfitriã no formato internacional, só dígitos. Ex.: "5534999999999"
+  // Vazio = o WhatsApp abre e a pessoa escolhe o contato.
+  var WHATSAPP_NUMBER = "";
+  // Quarta-feira, 23/09/2026 às 23h (horário de Brasília)
+  var DEADLINE = new Date("2026-09-23T23:00:00-03:00").getTime();
+  var MAX_COMP = 15;
+  var STORE_KEY = "luna-confirmados-v1";
+
+  function $(id) { return document.getElementById(id); }
+  function pad(n) { return n < 10 ? "0" + n : String(n); }
+
+  // ======= brilhinhos =======
+  (function sparkles() {
+    var box = $("sparkles"), html = "";
+    for (var i = 0; i < 26; i++) {
+      var x = Math.random() * 100, y = Math.random() * 100, s = 10 + Math.random() * 16, d = Math.random() * 4;
+      var el = document.createElement("span");
+      el.textContent = Math.random() > .5 ? "✦" : "✧";
+      el.style.cssText = "left:" + x + "%;top:" + y + "%;font-size:" + s + "px;animation-delay:-" + d + "s";
+      box.appendChild(el);
+    }
+  })();
+
+  // ======= contagem regressiva =======
+  var closed = false;
+  function tick() {
+    var diff = DEADLINE - Date.now();
+    if (diff <= 0) {
+      if (!closed) { closed = true; applyClosed(); }
+      return;
+    }
+    var s = Math.floor(diff / 1000);
+    $("cd").textContent = pad(Math.floor(s / 86400));
+    $("ch").textContent = pad(Math.floor((s % 86400) / 3600));
+    $("cm").textContent = pad(Math.floor((s % 3600) / 60));
+    $("cs").textContent = pad(s % 60);
+  }
+  function applyClosed() {
+    $("countOpen").classList.add("hidden");
+    $("countClosed").classList.remove("hidden");
+    $("formCard").classList.add("hidden");
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  // ======= formulário =======
+  var comp = 0;
+  function renderStepper() {
+    $("stepVal").textContent = comp;
+    $("totalPeople").textContent = comp + 1;
+    $("minus").disabled = comp <= 0;
+    $("plus").disabled = comp >= MAX_COMP;
+  }
+  $("minus").addEventListener("click", function () { if (comp > 0) { comp--; renderStepper(); } });
+  $("plus").addEventListener("click", function () { if (comp < MAX_COMP) { comp++; renderStepper(); } });
+  renderStepper();
+
+  function firstName(full) { return full.trim().split(/\s+/)[0]; }
+
+  function buildMessage(name, c) {
+    return "🎀 Confirmação de presença – Casa Mágica da Luna (8 anos)\n" +
+           "Nome: " + name + "\n" +
+           "Acompanhantes: " + c + "\n" +
+           "Total de pessoas: " + (c + 1);
+  }
+
+  var lastName = "";
+  function submit() {
+    if (Date.now() >= DEADLINE) { $("formErr").textContent = "As confirmações foram encerradas."; applyClosed(); return; }
+    var name = $("guestName").value.replace(/\s+/g, " ").trim();
+    if (name.length < 2) { $("formErr").textContent = "Por favor, escreva seu nome 💗"; $("guestName").focus(); return; }
+    $("formErr").textContent = "";
+    lastName = name;
+
+    var fn = firstName(name);
+    $("thanksTitle").textContent = "Obrigada pela confirmação, " + fn + "! 💖";
+    $("thanksMsg").textContent = comp > 0
+      ? "Aguardo ansiosamente vocês! (" + (comp + 1) + " pessoas)"
+      : "Aguardo ansiosamente você!";
+
+    var text = buildMessage(name, comp);
+    var num = WHATSAPP_NUMBER.replace(/\D/g, "");
+    $("waBtn").href = "https://wa.me/" + (num ? num : "") + "?text=" + encodeURIComponent(text);
+
+    $("formCard").classList.add("hidden");
+    $("thanksCard").classList.remove("hidden");
+    $("thanksCard").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+  $("submitBtn").addEventListener("click", submit);
+  $("guestName").addEventListener("keydown", function (e) { if (e.key === "Enter") submit(); });
+  $("backBtn").addEventListener("click", function () {
+    $("thanksCard").classList.add("hidden");
+    if (!closed) $("formCard").classList.remove("hidden");
+  });
+
+  // ======= painel da anfitriã =======
+  var items = [];
+  try {
+    var raw = localStorage.getItem(STORE_KEY);
+    if (raw) { var parsed = JSON.parse(raw); if (Array.isArray(parsed)) items = parsed.filter(function (x) { return x && typeof x.name === "string"; }); }
+  } catch (e) { items = []; }
+
+  function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(items)); } catch (e) {} }
+  function setStatus(msg) { $("hostStatus").textContent = msg; }
+
+  function upsert(name, c) {
+    name = name.replace(/\s+/g, " ").trim();
+    if (!name) return "skip";
+    c = Math.max(0, Math.min(99, parseInt(c, 10) || 0));
+    var key = name.toLowerCase();
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].name.toLowerCase() === key) { items[i].comp = c; return "updated"; }
+    }
+    items.push({ name: name, comp: c });
+    return "added";
+  }
+
+  function renderHost() {
+    var list = $("hostList");
+    list.textContent = "";
+    var people = 0;
+    items.forEach(function (it, idx) {
+      var total = it.comp + 1;
+      people += total;
+      var li = document.createElement("li");
+      var who = document.createElement("div"); who.className = "who";
+      var st = document.createElement("strong"); st.textContent = it.name;
+      var sm = document.createElement("small");
+      sm.textContent = it.comp === 0 ? "vai sozinho(a)" : "+ " + it.comp + (it.comp === 1 ? " acompanhante" : " acompanhantes");
+      who.appendChild(st); who.appendChild(sm);
+      var n = document.createElement("span"); n.className = "n"; n.textContent = total;
+      var del = document.createElement("button"); del.type = "button"; del.className = "del";
+      del.setAttribute("aria-label", "Remover " + it.name); del.textContent = "🗑️";
+      del.addEventListener("click", function () { items.splice(idx, 1); save(); renderHost(); setStatus("Removido."); });
+      li.appendChild(who); li.appendChild(n); li.appendChild(del);
+      list.appendChild(li);
+    });
+    $("statPeople").textContent = people;
+    $("statGroups").textContent = items.length;
+    $("hostEmpty").classList.toggle("hidden", items.length > 0);
+  }
+
+  $("hostToggle").addEventListener("click", function () {
+    var c = $("hostCard");
+    c.classList.toggle("hidden");
+    if (!c.classList.contains("hidden")) { renderHost(); c.scrollIntoView({ behavior: "smooth", block: "start" }); }
+  });
+
+  $("pasteBtn").addEventListener("click", function () {
+    var text = $("pasteBox").value;
+    var blocks = text.split(/(?=Nome:)/i).filter(function (b) { return /^Nome:/i.test(b.trim()); });
+    var added = 0, updated = 0;
+    blocks.forEach(function (b) {
+      var m = b.match(/Nome:\s*([^\n\r]+)/i);
+      var a = b.match(/Acompanhantes?:\s*(\d+)/i);
+      if (!m) return;
+      var r = upsert(m[1], a ? a[1] : 0);
+      if (r === "added") added++; else if (r === "updated") updated++;
+    });
+    if (!blocks.length) { setStatus("Não encontrei nenhuma confirmação no texto colado."); return; }
+    save(); renderHost(); $("pasteBox").value = "";
+    setStatus("✔ " + added + " nova(s), " + updated + " atualizada(s).");
+  });
+
+  $("mBtn").addEventListener("click", function () {
+    var r = upsert($("mName").value, $("mComp").value);
+    if (r === "skip") { setStatus("Escreva o nome."); return; }
+    save(); renderHost();
+    $("mName").value = ""; $("mComp").value = "";
+    setStatus(r === "added" ? "✔ Incluído." : "✔ Atualizado.");
+  });
+
+  $("copyBtn").addEventListener("click", function () {
+    var people = items.reduce(function (s, it) { return s + it.comp + 1; }, 0);
+    var lines = ["Confirmados – Casa Mágica da Luna", "Total: " + people + " pessoas (" + items.length + " confirmações)", ""];
+    items.forEach(function (it, i) { lines.push((i + 1) + ". " + it.name + " – " + (it.comp + 1) + (it.comp + 1 === 1 ? " pessoa" : " pessoas")); });
+    var txt = lines.join("\n");
+    function fallback() {
+      var ta = document.createElement("textarea"); ta.value = txt; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      var ok = false; try { ok = document.execCommand("copy"); } catch (e) {}
+      document.body.removeChild(ta);
+      setStatus(ok ? "✔ Lista copiada!" : "Não consegui copiar automaticamente.");
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(function () { setStatus("✔ Lista copiada!"); }, fallback);
+    } else { fallback(); }
+  });
+
+  var clearArmed = false, clearTimer = null;
+  $("clearBtn").addEventListener("click", function () {
+    var btn = $("clearBtn");
+    if (!clearArmed) {
+      clearArmed = true; btn.textContent = "Tocar de novo para apagar";
+      clearTimer = setTimeout(function () { clearArmed = false; btn.textContent = "Limpar tudo"; }, 4000);
+      return;
+    }
+    clearTimeout(clearTimer); clearArmed = false; btn.textContent = "Limpar tudo";
+    items = []; save(); renderHost(); setStatus("Lista limpa.");
+  });
+
+  renderHost();
+})();
+</script>
+</body>
+</html>
